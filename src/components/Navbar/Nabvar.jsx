@@ -1,33 +1,39 @@
-import React, { useState } from 'react';
+import React, { useContext, useState } from 'react';
 import './Navbar.css';
 import { assets } from '../../assets/assets';
 import { Link } from 'react-router-dom';
+import { StoreContext } from '../../Context/StoreContext';
 
-const Nabvar = ({setShowLogin}) => {
+const Nabvar = ({ setShowLogin }) => {
 
   const [menu, setMenu] = useState('home');
 
+  const {getTotalCartAmount} = useContext(StoreContext);
+
   return (
     <div className='navbar'>
-
+      <Link to='/'>
       <img src={assets.logo} alt="logo" className="logo" />
+      </Link>
 
       <ul className="navbar-menu">
-        <Link to='/' onClick={()=>setMenu('home')} className={menu === 'home' ? 'active' : ''}>Home</Link>
-        <a href='#explore-menu' onClick={()=>setMenu('menu')} className={menu === 'menu' ? 'active' : ''}>Menu</a>
-        <a href='#app-download' onClick={()=>setMenu('mobile-app')} className={menu === 'mobile-app' ? 'active' : ''}>Mobile-App</a>
-        <a href='#footer' onClick={()=>setMenu('contact-us')} className={menu === 'contact-us' ? 'active' : ''}>Contact Us</a>
+        <Link to='/' onClick={() => setMenu('home')} className={menu === 'home' ? 'active' : ''}>Home</Link>
+        <a href='#explore-menu' onClick={() => setMenu('menu')} className={menu === 'menu' ? 'active' : ''}>Menu</a>
+        <a href='#app-download' onClick={() => setMenu('mobile-app')} className={menu === 'mobile-app' ? 'active' : ''}>Mobile-App</a>
+        <a href='#footer' onClick={() => setMenu('contact-us')} className={menu === 'contact-us' ? 'active' : ''}>Contact Us</a>
       </ul>
 
       <div className="navbar-right">
         <img src={assets.search_icon} alt="search-icon" />
 
         <div className="navbar-search-icon">
-          <img src={assets.basket_icon} alt="basket as cart icon" />
-          <div className="dot"></div>
+          <Link to='/cart'>
+            <img src={assets.basket_icon} alt="basket as cart icon" />
+          </Link>
+          <div className={getTotalCartAmount() === 0 ? '' : 'dot'}></div>
         </div>
 
-        <button type="button" onClick={()=>setShowLogin(true)}>Sign In</button>
+        <button type="button" onClick={() => setShowLogin(true)}>Sign In</button>
       </div>
     </div>
   )
